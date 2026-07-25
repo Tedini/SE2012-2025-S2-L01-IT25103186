@@ -107,8 +107,15 @@ public class Marks {
             System.out.printf("________ Student %d ________%n",n + 1);
 
             for (int s = 0; s < subs.length; s++) {
-                System.out.printf("%s: ", subs[s]);
-                scores[n][s] = input.nextInt();
+                int mark;
+                do {
+                    System.out.printf("%s: ", subs[s]);
+                    mark = input.nextInt();
+                    if (mark < 0 || mark > 100) {
+                        System.out.println("INVALID! Marks must be between 0 and 100.");
+                    }
+                } while (mark < 0 || mark > 100);
+                scores[n][s] = mark;
             }
 
             System.out.println();
@@ -128,8 +135,14 @@ public class Marks {
         } else if (sub_ID < 1 || sub_ID > subs.length) {
             System.out.println("INVALID subject ID.");
         } else {
-            System.out.print("Enter the NEW mark: ");
-            int newMark = input.nextInt();
+            int newMark;
+            do {
+                System.out.print("Enter the NEW mark: ");
+                newMark = input.nextInt();
+                if (newMark < 0 || newMark > 100) {
+                    System.out.println("INVALID! Marks must be between 0 and 100.");
+                }
+            } while (newMark < 0 || newMark > 100);
 
             scores[s_ID - 1][sub_ID - 1] = newMark;
             System.out.println("UPDATED");
