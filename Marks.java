@@ -1,40 +1,197 @@
 import java.util.Scanner;
 
 public class Marks {
-	public static void main(String[] args){
 
-public static menu(){
+    static Scanner input = new Scanner(System.in);
 
-System.out.println("^^".repeat(40));
-System.out.println(" ".repeat(17));
-System.out.println("MENU");
-System.out.println("^^".repeat(40));
+    static String subs[] = {"Mathematics", "Chemistry", "Physics"};
+    static int scores[][];
+    static int tot_s[];
 
-System.out.println("Press the number 1-6 to choose options given below.\n");
-System.out.println("1.) Enter Marks for subjects");
-System.out.println("2.) Update a student's mark");
-System.out.println("3.) View AVERAGE of each student");
-System.out.println("4.) View AVERAGE of each subject");
-System.out.println("5.) View TOTAL marks of each student");
-System.out.println("6.) EXIT\n");
+    public static void main(String[] args) {
 
-System.out.println("^^".repeat(40));
-}
+        System.out.println("_".repeat(40));
+        System.out.println(" ".repeat(15) + "QUESTION 2");
+        System.out.println("_".repeat(40));
 
-public static addMarks(int num){
-for(int n = 0; n < num; n++){
+        System.out.print("Enter the number of students: ");
+        int n = input.nextInt();
 
-}
+        int s = subs.length;
+        scores = new int[n][s];
+        tot_s = new int[n];
 
-}
+        int in;
 
-System.out.println("_".repeat(40));
-System.out.println(" ".repeat(15));
-System.out.println("QUESTION 2");
-System.out.println("_".repeat(40));
+        do {
 
+            menu();
 
+            System.out.print("Enter your option: ");
+            in = input.nextInt();
 
-	}
+            switch (in) {
 
+                case 1:
+                    addMarks(n);
+                    break;
+
+                case 2:
+                    updateMarks();
+                    break;
+
+                case 3:
+                    System.out.println("Average of each student");
+
+                    totStu();
+
+                    for (int i = 0; i < n; i++) {
+                        System.out.printf("Student %d: %.2f%n", i + 1, avgStu(i));
+                    }
+
+                    break;
+
+                case 4:
+                    System.out.println("Average of each subject");
+                    avgSub(n);
+                    break;
+
+                case 5:
+                    System.out.println("Total marks of each student");
+
+                    totStu();
+
+                    for (int i = 0; i < n; i++) {
+                        System.out.printf("Student %d: %d%n", i + 1,tot_s[i]);
+                    }
+
+                    break;
+
+                case 6:
+                    display();
+                    break;
+
+                case 7:
+                    System.out.println("EXITED");
+                    break;
+
+                default:
+                    System.out.println("INVALID");
+            }
+
+        } while (in != 7);
+    }
+
+    public static void menu() {
+
+        System.out.println("\n" + "___".repeat(20));
+        System.out.println(" ".repeat(17) + "MENU");
+        System.out.println("___".repeat(20));
+
+        System.out.println("Press a number from 1-7 to choose an option.\n");
+        System.out.println("1.) Enter marks for subjects");
+        System.out.println("2.) Update a student's mark");
+        System.out.println("3.) View AVERAGE of each student");
+        System.out.println("4.) View AVERAGE of each subject");
+        System.out.println("5.) View TOTAL marks of each student");
+        System.out.println("6.) Display Table");
+        System.out.println("7.) EXIT");
+
+        System.out.println("___".repeat(20));
+    }
+
+    public static void addMarks(int num) {
+
+        for (int n = 0; n < num; n++) {
+
+            System.out.printf("________ Student %d ________%n",n + 1);
+
+            for (int s = 0; s < subs.length; s++) {
+                System.out.printf("%s: ", subs[s]);
+                scores[n][s] = input.nextInt();
+            }
+
+            System.out.println();
+        }
+    }
+
+    public static void updateMarks() {
+
+        System.out.print("Enter the student ID: ");
+        int s_ID = input.nextInt();
+
+        System.out.print("Enter the Subject ID (Math: 1, Chemistry: 2, Physics: 3): ");
+        int sub_ID = input.nextInt();
+
+        if (s_ID < 1 || s_ID > scores.length) {
+            System.out.println("INVALID student ID.");
+        } else if (sub_ID < 1 || sub_ID > subs.length) {
+            System.out.println("INVALID subject ID.");
+        } else {
+            System.out.print("Enter the NEW mark: ");
+            int newMark = input.nextInt();
+
+            scores[s_ID - 1][sub_ID - 1] = newMark;
+            System.out.println("UPDATED");
+        }
+    }
+
+    public static void display() {
+
+        System.out.printf("%-12s", "");
+
+        for (int s = 0; s < subs.length; s++) {
+            System.out.printf("%15s", subs[s]);
+        }
+
+        System.out.println();
+
+        for (int n = 0; n < scores.length; n++) {
+
+            System.out.printf("%-12s","Student " + (n + 1));
+
+            for (int s = 0; s < subs.length; s++) {
+                System.out.printf("%15d", scores[n][s]);
+            }
+
+            System.out.println();
+        }
+    }
+
+    public static void totStu() {
+
+        for (int n = 0; n < scores.length; n++) {
+
+            int tot = 0;
+
+            for (int s = 0; s < subs.length; s++) {
+                tot += scores[n][s];
+            }
+
+            tot_s[n] = tot;
+        }
+    }
+
+    public static double avgStu(int n) {
+
+        double avg_s = (double) tot_s[n] / subs.length;
+
+        return avg_s;
+    }
+
+    public static void avgSub(int num) {
+
+        for (int s = 0; s < subs.length; s++) {
+
+            int tot_sub_marks = 0;
+
+            for (int n = 0; n < scores.length; n++) {
+                tot_sub_marks += scores[n][s];
+            }
+
+            double avg_sub = (double) tot_sub_marks / num;
+
+            System.out.printf("%s: %.2f%n",subs[s],avg_sub);
+        }
+    }
 }
